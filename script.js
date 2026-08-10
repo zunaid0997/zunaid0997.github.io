@@ -208,10 +208,15 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
   const muteIconBar = document.getElementById('muteIconBar');
   const reelSeekBar = document.getElementById('reelSeekBar');
 
+  const reelRewindBtn = document.getElementById('reelRewindBtn');
+  const reelForwardBtn = document.getElementById('reelForwardBtn');
+
   if (reelVideo) {
     // Ensure video NEVER plays automatically on page load (User must click to play)
     reelVideo.autoplay = false;
     reelVideo.pause();
+
+    let isUserSeeking = false;
 
     const formatTime = (seconds) => {
       if (isNaN(seconds)) return "00:00";
@@ -257,40 +262,14 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
     if (reelMuteBtn) reelMuteBtn.addEventListener('click', toggleSound);
     if (reelSoundToggleBtn) reelSoundToggleBtn.addEventListener('click', toggleSound);
 
-    // Update range input slider background and value on timeupdate
+    // Update time display on timeupdate
     reelVideo.addEventListener('timeupdate', () => {
       if (!isNaN(reelVideo.duration) && reelVideo.duration > 0) {
-        const pct = (reelVideo.currentTime / reelVideo.duration) * 100;
-        if (reelSeekBar) {
-          reelSeekBar.value = pct;
-          reelSeekBar.style.background = `linear-gradient(to right, #ff1e42 0%, #e1306c ${pct}%, rgba(255, 255, 255, 0.25) ${pct}%, rgba(255, 255, 255, 0.25) 100%)`;
-        }
         if (reelTimeDisplay) {
           reelTimeDisplay.textContent = `${formatTime(reelVideo.currentTime)} / ${formatTime(reelVideo.duration)}`;
         }
       }
     });
-
-    // Native range input seek handlers (100% reliable across touch and mouse)
-    if (reelSeekBar) {
-      ['click', 'touchstart', 'touchend', 'mousedown', 'mouseup'].forEach(evtName => {
-        reelSeekBar.addEventListener(evtName, (e) => {
-          e.stopPropagation();
-        });
-      });
-
-      const performSeek = (e) => {
-        if (e) e.stopPropagation();
-        if (!isNaN(reelVideo.duration) && reelVideo.duration > 0) {
-          const val = parseFloat(reelSeekBar.value);
-          const seekTime = (val / 100) * reelVideo.duration;
-          reelVideo.currentTime = seekTime;
-        }
-      };
-
-      reelSeekBar.addEventListener('input', performSeek);
-      reelSeekBar.addEventListener('change', performSeek);
-    }
 
     reelVideo.addEventListener('ended', () => {
       reelOverlayControls.classList.remove('playing');

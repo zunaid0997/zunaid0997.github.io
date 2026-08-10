@@ -342,24 +342,20 @@
 
           <!-- Big Play Button Overlay -->
           <div class="reel-overlay-controls" id="reelOverlayControls">
-            <button id="reelBigPlayBtn" class="big-play-btn" aria-label="Play Reel Video" title="Play Video">
+            <button type="button" id="reelBigPlayBtn" class="big-play-btn" aria-label="Play Reel Video" title="Play Video">
               <i class="fas fa-play"></i>
             </button>
           </div>
 
           <!-- Bottom Control Bar -->
           <div class="reel-control-bar">
-            <button id="reelPlayPauseBtn" class="reel-btn" aria-label="Play / Pause" title="Play / Pause">
+            <button type="button" id="reelPlayPauseBtn" class="reel-btn" aria-label="Play / Pause" title="Play / Pause">
               <i class="fas fa-play"></i>
             </button>
 
-            <div class="reel-seek-wrapper">
-              <input type="range" id="reelSeekBar" class="reel-seek-slider" min="0" max="100" value="0" step="0.1" aria-label="Seek Video" title="Click or Drag to Seek Video">
-            </div>
-
             <span id="reelTimeDisplay" class="reel-time">00:00 / 00:00</span>
 
-            <button id="reelMuteBtn" class="reel-btn" aria-label="Sound On / Off" title="Sound On / Off">
+            <button type="button" id="reelMuteBtn" class="reel-btn" aria-label="Sound On / Off" title="Sound On / Off">
               <i class="fas fa-volume-mute" id="muteIconBar"></i>
             </button>
 
