@@ -275,6 +275,13 @@ section {
   color: var(--accent-red);
 }
 
+.nav-ig-btn:hover {
+  background: rgba(225, 48, 108, 0.18) !important;
+  border-color: #e1306c !important;
+  color: #e1306c !important;
+  transform: translateY(-2px);
+}
+
 .nav-links a::after {
   content: '';
   position: absolute;
