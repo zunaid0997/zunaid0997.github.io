@@ -243,6 +243,77 @@
     </div>
   </section>
 
+  <!-- Interactive Body Mass Index (BMI) Calculator -->
+  <section class="calculator-section" id="bmi-calculator">
+    <div class="container">
+      <div class="section-title">
+        <span class="tag"><i class="fas fa-heartbeat"></i> Free Health Tool</span>
+        <h2>Body Mass Index <span class="text-gradient">(BMI) Calculator</span></h2>
+        <p>Calculate your precise Body Mass Index (BMI) and determine your ideal healthy weight range.</p>
+      </div>
+
+      <div class="calc-card">
+        <form id="bmiCalcForm">
+          <div class="calc-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="form-group">
+              <label for="bmiGender">Gender</label>
+              <select id="bmiGender" class="form-control" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="bmiWeight">Weight (kg)</label>
+              <input type="number" id="bmiWeight" class="form-control" placeholder="e.g. 70" min="20" max="250" step="0.1" value="70" required>
+            </div>
+            <div class="form-group">
+              <label for="bmiHeight">Height (cm)</label>
+              <input type="number" id="bmiHeight" class="form-control" placeholder="e.g. 175" min="100" max="230" step="0.1" value="175" required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+            <i class="fas fa-calculator"></i> Calculate My BMI Score
+          </button>
+        </form>
+
+        <!-- BMI Result Display Card -->
+        <div class="calc-result-box" id="bmiResults">
+          <div class="result-main" style="margin-bottom: 1.5rem; padding-bottom: 1rem;">
+            <h4>Your Body Mass Index (BMI)</h4>
+            <h3 id="bmiScoreVal" style="font-size: 3.5rem; margin: 0.25rem 0;">22.9</h3>
+            <div id="bmiCategoryBadge" class="bmi-badge bmi-normal">
+              <i class="fas fa-check-circle"></i> Normal Weight
+            </div>
+          </div>
+
+          <!-- BMI Spectrum Progress Bar -->
+          <div class="bmi-spectrum-container" style="margin-bottom: 1.5rem;">
+            <div class="bmi-spectrum-bar">
+              <div class="bmi-segment seg-under" title="Underweight (< 18.5)">Underweight</div>
+              <div class="bmi-segment seg-normal" title="Normal (18.5 - 24.9)">Normal</div>
+              <div class="bmi-segment seg-over" title="Overweight (25 - 29.9)">Overweight</div>
+              <div class="bmi-segment seg-obese" title="Obese (≥ 30)">Obese</div>
+            </div>
+            <div class="bmi-indicator-pin" id="bmiPin" style="left: 45%;"></div>
+          </div>
+
+          <!-- BMI Details & Ideal Weight Grid -->
+          <div class="macros-breakdown" style="grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <div class="macro-box">
+              <span class="title"><i class="fas fa-bullseye"></i> Ideal Weight Range</span>
+              <span class="value" id="bmiIdealRange" style="font-size: 1.25rem; color: #10b981;">56.7 kg – 76.3 kg</span>
+            </div>
+            <div class="macro-box">
+              <span class="title"><i class="fas fa-notes-medical"></i> Health Status</span>
+              <span class="value" id="bmiAdviceText" style="font-size: 1rem; color: var(--text-primary); font-weight: 600; line-height: 1.3;">Optimal weight range for health & longevity.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Specialization Training Programs -->
   <section class="programs-section" id="programs">
     <div class="container">
@@ -429,77 +500,6 @@
   </section>
 
 
-
-  <!-- Interactive Body Mass Index (BMI) Calculator -->
-  <section class="calculator-section" id="bmi-calculator">
-    <div class="container">
-      <div class="section-title">
-        <span class="tag"><i class="fas fa-heartbeat"></i> Free Health Tool</span>
-        <h2>Body Mass Index <span class="text-gradient">(BMI) Calculator</span></h2>
-        <p>Calculate your precise Body Mass Index (BMI) and determine your ideal healthy weight range.</p>
-      </div>
-
-      <div class="calc-card">
-        <form id="bmiCalcForm">
-          <div class="calc-grid" style="grid-template-columns: repeat(3, 1fr);">
-            <div class="form-group">
-              <label for="bmiGender">Gender</label>
-              <select id="bmiGender" class="form-control" required>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="bmiWeight">Weight (kg)</label>
-              <input type="number" id="bmiWeight" class="form-control" placeholder="e.g. 70" min="20" max="250" step="0.1" value="70" required>
-            </div>
-            <div class="form-group">
-              <label for="bmiHeight">Height (cm)</label>
-              <input type="number" id="bmiHeight" class="form-control" placeholder="e.g. 175" min="100" max="230" step="0.1" value="175" required>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
-            <i class="fas fa-calculator"></i> Calculate My BMI Score
-          </button>
-        </form>
-
-        <!-- BMI Result Display Card -->
-        <div class="calc-result-box" id="bmiResults">
-          <div class="result-main" style="margin-bottom: 1.5rem; padding-bottom: 1rem;">
-            <h4>Your Body Mass Index (BMI)</h4>
-            <h3 id="bmiScoreVal" style="font-size: 3.5rem; margin: 0.25rem 0;">22.9</h3>
-            <div id="bmiCategoryBadge" class="bmi-badge bmi-normal">
-              <i class="fas fa-check-circle"></i> Normal Weight
-            </div>
-          </div>
-
-          <!-- BMI Spectrum Progress Bar -->
-          <div class="bmi-spectrum-container" style="margin-bottom: 1.5rem;">
-            <div class="bmi-spectrum-bar">
-              <div class="bmi-segment seg-under" title="Underweight (< 18.5)">Underweight</div>
-              <div class="bmi-segment seg-normal" title="Normal (18.5 - 24.9)">Normal</div>
-              <div class="bmi-segment seg-over" title="Overweight (25 - 29.9)">Overweight</div>
-              <div class="bmi-segment seg-obese" title="Obese (≥ 30)">Obese</div>
-            </div>
-            <div class="bmi-indicator-pin" id="bmiPin" style="left: 45%;"></div>
-          </div>
-
-          <!-- BMI Details & Ideal Weight Grid -->
-          <div class="macros-breakdown" style="grid-template-columns: repeat(2, 1fr); gap: 1rem;">
-            <div class="macro-box">
-              <span class="title"><i class="fas fa-bullseye"></i> Ideal Weight Range</span>
-              <span class="value" id="bmiIdealRange" style="font-size: 1.25rem; color: #10b981;">56.7 kg – 76.3 kg</span>
-            </div>
-            <div class="macro-box">
-              <span class="title"><i class="fas fa-notes-medical"></i> Health Status</span>
-              <span class="value" id="bmiAdviceText" style="font-size: 1rem; color: var(--text-primary); font-weight: 600; line-height: 1.3;">Optimal weight range for health & longevity.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Consultation & Direct Mailbox Section -->
   <section class="contact-section" id="contact">
