@@ -1017,6 +1017,8 @@ section {
   border-radius: var(--radius-lg);
   padding: 3rem;
   box-shadow: var(--shadow-main);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .calc-grid {
@@ -1024,12 +1026,16 @@ section {
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .form-group label {
@@ -1039,15 +1045,33 @@ section {
 }
 
 .form-control {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   background: rgba(10, 12, 20, 0.8);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
   padding: 0.85rem 1rem;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.95rem;
   outline: none;
   transition: var(--transition);
+}
+
+select.form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .form-control:focus {
@@ -1497,7 +1521,9 @@ section {
   .academy-card,
   .calc-card,
   .glass-card {
-    padding: 1.5rem;
+    padding: 1.25rem 1rem;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .performance-banner {
@@ -1511,6 +1537,8 @@ section {
 
   .calc-grid {
     grid-template-columns: 1fr;
+    gap: 1.1rem;
+    width: 100%;
   }
 
   .macros-breakdown {
@@ -1575,5 +1603,19 @@ section {
 
   .hero-floating-card span {
     font-size: 0.68rem;
+  }
+
+  .calc-card {
+    padding: 1.1rem 0.85rem;
+  }
+
+  .form-control {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.88rem;
+  }
+
+  select.form-control {
+    padding-right: 2.2rem;
+    background-position: right 0.75rem center;
   }
 }
