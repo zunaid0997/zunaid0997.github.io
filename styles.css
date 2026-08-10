@@ -161,7 +161,6 @@ img {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   border: 1px solid var(--border-light);
-  backdrop-filter: blur(10px);
 }
 
 .btn-outline:hover {
@@ -172,9 +171,7 @@ img {
 }
 
 .glass-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(22, 26, 42, 0.88);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 2rem;
@@ -193,14 +190,16 @@ img {
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1.25rem 0;
-  transition: var(--transition);
+  padding: 0.85rem 0;
+  background: rgba(10, 12, 20, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .navbar.scrolled {
-  background: rgba(10, 12, 20, 0.92);
-  backdrop-filter: blur(20px);
-  padding: 0.85rem 0;
+  background: rgba(10, 12, 20, 0.96);
   border-bottom: 1px solid var(--border-light);
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
@@ -323,12 +322,14 @@ section {
   z-index: 1500;
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: var(--transition);
 }
 
 .drawer-backdrop.active {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .floating-drawer {
@@ -351,10 +352,12 @@ section {
   transform: translateX(-100%);
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
+  pointer-events: none;
 }
 
 .floating-drawer.active {
   transform: translateX(0);
+  pointer-events: auto;
 }
 
 .floating-drawer .drawer-profile-card,
@@ -658,6 +661,8 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 15px;
 }
 
 .hero-image-frame {
@@ -690,8 +695,6 @@ section {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(18, 21, 36, 0.94);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-glow);
   padding: 0.75rem 1.35rem;
   border-radius: var(--radius-full);
@@ -917,8 +920,7 @@ section {
 }
 
 .perf-box {
-  background: rgba(18, 21, 36, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(18, 21, 36, 0.92);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 1.75rem;
@@ -1389,7 +1391,7 @@ select.form-control {
   }
 
   .hero {
-    padding-top: 110px;
+    padding-top: 140px;
     padding-bottom: 50px;
     min-height: auto;
     overflow-x: hidden;
@@ -1479,6 +1481,8 @@ select.form-control {
     justify-content: center;
     width: 100%;
     margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 20px;
   }
 
   .hero-image-frame {

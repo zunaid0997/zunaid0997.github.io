@@ -9,12 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.getElementById('navLinks');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+    const isScrolled = window.scrollY > 20;
+    if (navbar && navbar.classList.contains('scrolled') !== isScrolled) {
+      navbar.classList.toggle('scrolled', isScrolled);
     }
-  });
+  }, { passive: true });
 
   // Mobile Navigation Toggle
   if (mobileToggle) {
