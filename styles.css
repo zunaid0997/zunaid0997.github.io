@@ -214,6 +214,7 @@ img {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex-shrink: 0;
 }
 
 .brand-icon {
@@ -227,25 +228,30 @@ img {
   color: white;
   font-size: 1.4rem;
   box-shadow: 0 0 15px rgba(255, 30, 66, 0.5);
+  flex-shrink: 0;
 }
 
 .brand-text h1 {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 900;
   letter-spacing: 0.5px;
   line-height: 1;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .brand-text p,
 .drawer-brand p,
 .highlight-title {
-  font-size: 0.75rem;
+  font-size: 0.66rem;
   color: #ff2a55 !important;
   font-weight: 800 !important;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  text-shadow: 0 0 12px rgba(255, 42, 85, 0.45);
+  text-shadow: 0 0 10px rgba(255, 42, 85, 0.4);
+  white-space: nowrap;
+  margin-top: 3px;
 }
 
 section {
