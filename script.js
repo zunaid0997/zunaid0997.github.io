@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MOHD ZUNAID FIT | Interactive Application Logic
+   MOHD ZUNAID | Interactive Application Logic
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {

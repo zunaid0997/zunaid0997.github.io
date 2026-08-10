@@ -1,5 +1,5 @@
 /* ==========================================================================
-   MOHD ZUNAID FIT | Elite Personal Trainer & Certified Nutritionist
+   MOHD ZUNAID | Elite Personal Trainer & Certified Nutritionist
    Modern Dark Crimson Red CSS Architecture
    ========================================================================== */
 
@@ -237,12 +237,15 @@ img {
   line-height: 1;
 }
 
-.brand-text p {
-  font-size: 0.72rem;
-  color: var(--accent-coral);
-  font-weight: 600;
-  letter-spacing: 1px;
+.brand-text p,
+.drawer-brand p,
+.highlight-title {
+  font-size: 0.75rem;
+  color: #ff2a55 !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(255, 42, 85, 0.45);
 }
 
 section {
