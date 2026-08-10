@@ -1502,8 +1502,9 @@ select.form-control {
   .hero-floating-card {
     position: absolute;
     bottom: -14px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
     width: max-content;
     max-width: calc(100vw - 32px);
     padding: 0.55rem 0.95rem;
@@ -1612,22 +1613,35 @@ select.form-control {
   }
 
   .hero-floating-card {
-    padding: 0.45rem 0.85rem;
-    gap: 0.5rem;
-    bottom: -10px;
+    position: absolute;
+    bottom: -14px;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: max-content;
     max-width: calc(100vw - 24px);
+    padding: 0.45rem 0.8rem;
+    gap: 0.5rem;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    animation: float 4s ease-in-out infinite;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    box-sizing: border-box;
+    z-index: 10;
   }
 
   .hero-floating-card i {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .hero-floating-card strong {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
+    line-height: 1.1;
   }
 
   .hero-floating-card span {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
+    line-height: 1.1;
   }
 
   .calc-card {
