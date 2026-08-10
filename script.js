@@ -196,4 +196,106 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
       }
     });
   }
+
+  /* --- Featured Instagram Reel Video Player Controls --- */
+  const reelVideo = document.getElementById('trainerReelVideo');
+  const reelBigPlayBtn = document.getElementById('reelBigPlayBtn');
+  const reelPlayPauseBtn = document.getElementById('reelPlayPauseBtn');
+  const reelOverlayControls = document.getElementById('reelOverlayControls');
+  const reelMuteBtn = document.getElementById('reelMuteBtn');
+  const reelSoundToggleBtn = document.getElementById('reelSoundToggleBtn');
+  const soundToggleIcon = document.getElementById('soundToggleIcon');
+  const muteIconBar = document.getElementById('muteIconBar');
+  const reelSeekBar = document.getElementById('reelSeekBar');
+
+  if (reelVideo) {
+    // Ensure video NEVER plays automatically on page load (User must click to play)
+    reelVideo.autoplay = false;
+    reelVideo.pause();
+
+    const formatTime = (seconds) => {
+      if (isNaN(seconds)) return "00:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    const togglePlay = () => {
+      if (reelVideo.paused) {
+        reelVideo.play();
+        reelOverlayControls.classList.add('playing');
+        reelPlayPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        reelBigPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      } else {
+        reelVideo.pause();
+        reelOverlayControls.classList.remove('playing');
+        reelPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        reelBigPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    };
+
+    const toggleSound = () => {
+      reelVideo.muted = !reelVideo.muted;
+      if (reelVideo.muted) {
+        if (muteIconBar) muteIconBar.className = 'fas fa-volume-mute';
+        if (soundToggleIcon) soundToggleIcon.className = 'fas fa-volume-mute';
+        if (reelSoundToggleBtn) reelSoundToggleBtn.innerHTML = '<i class="fas fa-volume-mute"></i> Sound Off (Click to Unmute)';
+      } else {
+        if (muteIconBar) muteIconBar.className = 'fas fa-volume-up';
+        if (soundToggleIcon) soundToggleIcon.className = 'fas fa-volume-up';
+        if (reelSoundToggleBtn) reelSoundToggleBtn.innerHTML = '<i class="fas fa-volume-up"></i> Sound On (Audio Active)';
+      }
+    };
+
+    if (reelBigPlayBtn) reelBigPlayBtn.addEventListener('click', togglePlay);
+    if (reelPlayPauseBtn) reelPlayPauseBtn.addEventListener('click', togglePlay);
+    if (reelOverlayControls) reelOverlayControls.addEventListener('click', (e) => {
+      if (e.target === reelOverlayControls || e.target === reelBigPlayBtn || reelBigPlayBtn.contains(e.target)) {
+        togglePlay();
+      }
+    });
+    if (reelMuteBtn) reelMuteBtn.addEventListener('click', toggleSound);
+    if (reelSoundToggleBtn) reelSoundToggleBtn.addEventListener('click', toggleSound);
+
+    // Update range input slider background and value on timeupdate
+    reelVideo.addEventListener('timeupdate', () => {
+      if (!isNaN(reelVideo.duration) && reelVideo.duration > 0) {
+        const pct = (reelVideo.currentTime / reelVideo.duration) * 100;
+        if (reelSeekBar) {
+          reelSeekBar.value = pct;
+          reelSeekBar.style.background = `linear-gradient(to right, #ff1e42 0%, #e1306c ${pct}%, rgba(255, 255, 255, 0.25) ${pct}%, rgba(255, 255, 255, 0.25) 100%)`;
+        }
+        if (reelTimeDisplay) {
+          reelTimeDisplay.textContent = `${formatTime(reelVideo.currentTime)} / ${formatTime(reelVideo.duration)}`;
+        }
+      }
+    });
+
+    // Native range input seek handlers (100% reliable across touch and mouse)
+    if (reelSeekBar) {
+      ['click', 'touchstart', 'touchend', 'mousedown', 'mouseup'].forEach(evtName => {
+        reelSeekBar.addEventListener(evtName, (e) => {
+          e.stopPropagation();
+        });
+      });
+
+      const performSeek = (e) => {
+        if (e) e.stopPropagation();
+        if (!isNaN(reelVideo.duration) && reelVideo.duration > 0) {
+          const val = parseFloat(reelSeekBar.value);
+          const seekTime = (val / 100) * reelVideo.duration;
+          reelVideo.currentTime = seekTime;
+        }
+      };
+
+      reelSeekBar.addEventListener('input', performSeek);
+      reelSeekBar.addEventListener('change', performSeek);
+    }
+
+    reelVideo.addEventListener('ended', () => {
+      reelOverlayControls.classList.remove('playing');
+      reelPlayPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+      reelBigPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
+    });
+  }
 });
