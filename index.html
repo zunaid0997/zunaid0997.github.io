@@ -37,7 +37,7 @@
         <a href="#programs">Programs</a>
         <a href="#performance">Performance</a>
         <a href="#nutrition">Nutrition</a>
-        <a href="#calculator">Calculator</a>
+        <a href="#bmi-calculator">BMI Calculator</a>
         <a href="#contact" class="btn btn-primary btn-sm" style="padding: 0.6rem 1.25rem; font-size: 0.88rem; white-space: nowrap;">
           <i class="fas fa-envelope"></i> Send Email
         </a>
@@ -93,7 +93,7 @@
           <li><a href="#programs" class="drawer-link"><i class="fas fa-dumbbell"></i> Training Programs</a></li>
           <li><a href="#performance" class="drawer-link"><i class="fas fa-tachometer-alt"></i> Athletic Performance</a></li>
           <li><a href="#nutrition" class="drawer-link"><i class="fas fa-apple-alt"></i> Nutrition & Diet Plans</a></li>
-          <li><a href="#calculator" class="drawer-link"><i class="fas fa-calculator"></i> Macro Estimator Tool</a></li>
+          <li><a href="#bmi-calculator" class="drawer-link"><i class="fas fa-heartbeat"></i> BMI Calculator Tool</a></li>
           <li><a href="#contact" class="drawer-link"><i class="fas fa-envelope"></i> Direct Contact Mailbox</a></li>
         </ul>
       </div>
@@ -428,80 +428,72 @@
     </div>
   </section>
 
-  <!-- Interactive Calorie & Macro Calculator -->
-  <section class="calculator-section" id="calculator">
+
+
+  <!-- Interactive Body Mass Index (BMI) Calculator -->
+  <section class="calculator-section" id="bmi-calculator">
     <div class="container">
       <div class="section-title">
-        <span class="tag">Interactive Tool</span>
-        <h2>Daily Calorie & <span class="text-gradient">Macro Estimator</span></h2>
-        <p>Calculate your daily maintenance calories (TDEE) and optimal macro distribution instantly.</p>
+        <span class="tag"><i class="fas fa-heartbeat"></i> Free Health Tool</span>
+        <h2>Body Mass Index <span class="text-gradient">(BMI) Calculator</span></h2>
+        <p>Calculate your precise Body Mass Index (BMI) and determine your ideal healthy weight range.</p>
       </div>
 
       <div class="calc-card">
-        <form id="macroCalcForm">
-          <div class="calc-grid">
+        <form id="bmiCalcForm">
+          <div class="calc-grid" style="grid-template-columns: repeat(3, 1fr);">
             <div class="form-group">
-              <label for="gender">Gender</label>
-              <select id="gender" class="form-control" required>
+              <label for="bmiGender">Gender</label>
+              <select id="bmiGender" class="form-control" required>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="age">Age (years)</label>
-              <input type="number" id="age" class="form-control" placeholder="e.g. 25" min="15" max="80" value="25" required>
+              <label for="bmiWeight">Weight (kg)</label>
+              <input type="number" id="bmiWeight" class="form-control" placeholder="e.g. 70" min="20" max="250" step="0.1" value="70" required>
             </div>
             <div class="form-group">
-              <label for="weight">Weight (kg)</label>
-              <input type="number" id="weight" class="form-control" placeholder="e.g. 70" min="30" max="200" value="72" required>
-            </div>
-            <div class="form-group">
-              <label for="height">Height (cm)</label>
-              <input type="number" id="height" class="form-control" placeholder="e.g. 175" min="120" max="220" value="175" required>
-            </div>
-            <div class="form-group">
-              <label for="activity">Activity Level</label>
-              <select id="activity" class="form-control" required>
-                <option value="1.2">Sedentary (Little or no exercise)</option>
-                <option value="1.375">Lightly Active (Exercise 1-3 days/wk)</option>
-                <option value="1.55" selected>Moderately Active (Exercise 3-5 days/wk)</option>
-                <option value="1.725">Very Active (Hard Exercise 6-7 days/wk)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="goal">Fitness Goal</label>
-              <select id="goal" class="form-control" required>
-                <option value="fatloss">Fat Loss (-20% deficit)</option>
-                <option value="maintenance">Maintenance</option>
-                <option value="muscle">Muscle Gain (+15% surplus)</option>
-              </select>
+              <label for="bmiHeight">Height (cm)</label>
+              <input type="number" id="bmiHeight" class="form-control" placeholder="e.g. 175" min="100" max="230" step="0.1" value="175" required>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem;">
-            <i class="fas fa-calculator"></i> Calculate My Target Macros
+          <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1.1rem; gap: 0.5rem; justify-content: center; margin-top: 0.5rem;">
+            <i class="fas fa-calculator"></i> Calculate My BMI Score
           </button>
         </form>
 
-        <div class="calc-result-box" id="calcResults">
-          <div class="result-main">
-            <h4>Estimated Daily Caloric Intake</h4>
-            <h3 id="targetCalories">0 kcal / day</h3>
-            <p id="tdeeDesc" style="font-size: 0.9rem; color: var(--accent-coral);"></p>
+        <!-- BMI Result Display Card -->
+        <div class="calc-result-box" id="bmiResults">
+          <div class="result-main" style="margin-bottom: 1.5rem; padding-bottom: 1rem;">
+            <h4>Your Body Mass Index (BMI)</h4>
+            <h3 id="bmiScoreVal" style="font-size: 3.5rem; margin: 0.25rem 0;">22.9</h3>
+            <div id="bmiCategoryBadge" class="bmi-badge bmi-normal">
+              <i class="fas fa-check-circle"></i> Normal Weight
+            </div>
           </div>
 
-          <div class="macros-breakdown">
+          <!-- BMI Spectrum Progress Bar -->
+          <div class="bmi-spectrum-container" style="margin-bottom: 1.5rem;">
+            <div class="bmi-spectrum-bar">
+              <div class="bmi-segment seg-under" title="Underweight (< 18.5)">Underweight</div>
+              <div class="bmi-segment seg-normal" title="Normal (18.5 - 24.9)">Normal</div>
+              <div class="bmi-segment seg-over" title="Overweight (25 - 29.9)">Overweight</div>
+              <div class="bmi-segment seg-obese" title="Obese (≥ 30)">Obese</div>
+            </div>
+            <div class="bmi-indicator-pin" id="bmiPin" style="left: 45%;"></div>
+          </div>
+
+          <!-- BMI Details & Ideal Weight Grid -->
+          <div class="macros-breakdown" style="grid-template-columns: repeat(2, 1fr); gap: 1rem;">
             <div class="macro-box">
-              <span class="title">Protein (30%)</span>
-              <span class="value" id="proteinVal">0g</span>
+              <span class="title"><i class="fas fa-bullseye"></i> Ideal Weight Range</span>
+              <span class="value" id="bmiIdealRange" style="font-size: 1.25rem; color: #10b981;">56.7 kg – 76.3 kg</span>
             </div>
             <div class="macro-box">
-              <span class="title">Carbohydrates (45%)</span>
-              <span class="value" id="carbVal">0g</span>
-            </div>
-            <div class="macro-box">
-              <span class="title">Healthy Fats (25%)</span>
-              <span class="value" id="fatVal">0g</span>
+              <span class="title"><i class="fas fa-notes-medical"></i> Health Status</span>
+              <span class="value" id="bmiAdviceText" style="font-size: 1rem; color: var(--text-primary); font-weight: 600; line-height: 1.3;">Optimal weight range for health & longevity.</span>
             </div>
           </div>
         </div>

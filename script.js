@@ -58,68 +58,75 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', closeDrawer);
   });
 
-  // Daily Calorie & Macro Estimator Calculator Form
-  const macroCalcForm = document.getElementById('macroCalcForm');
-  const calcResults = document.getElementById('calcResults');
-  const targetCaloriesEl = document.getElementById('targetCalories');
-  const tdeeDescEl = document.getElementById('tdeeDesc');
-  const proteinValEl = document.getElementById('proteinVal');
-  const carbValEl = document.getElementById('carbVal');
-  const fatValEl = document.getElementById('fatVal');
+  // Body Mass Index (BMI) Calculator Form Handler
+  const bmiCalcForm = document.getElementById('bmiCalcForm');
+  const bmiResults = document.getElementById('bmiResults');
+  const bmiScoreVal = document.getElementById('bmiScoreVal');
+  const bmiCategoryBadge = document.getElementById('bmiCategoryBadge');
+  const bmiPin = document.getElementById('bmiPin');
+  const bmiIdealRange = document.getElementById('bmiIdealRange');
+  const bmiAdviceText = document.getElementById('bmiAdviceText');
 
-  if (macroCalcForm) {
-    macroCalcForm.addEventListener('submit', (e) => {
+  if (bmiCalcForm) {
+    bmiCalcForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const gender = document.getElementById('gender').value;
-      const age = parseFloat(document.getElementById('age').value);
-      const weight = parseFloat(document.getElementById('weight').value);
-      const height = parseFloat(document.getElementById('height').value);
-      const activity = parseFloat(document.getElementById('activity').value);
-      const goal = document.getElementById('goal').value;
+      const weight = parseFloat(document.getElementById('bmiWeight').value);
+      const heightCm = parseFloat(document.getElementById('bmiHeight').value);
 
-      if (!weight || !height || !age) return;
+      if (!weight || !heightCm) return;
 
-      // Mifflin-St Jeor Equation for BMR
-      let bmr = (10 * weight) + (6.25 * height) - (5 * age);
-      if (gender === 'male') {
-        bmr += 5;
+      const heightM = heightCm / 100;
+      const bmi = (weight / (heightM * heightM)).toFixed(1);
+      const bmiNum = parseFloat(bmi);
+
+      // Ideal Weight Range (BMI 18.5 to 24.9)
+      const minIdeal = (18.5 * heightM * heightM).toFixed(1);
+      const maxIdeal = (24.9 * heightM * heightM).toFixed(1);
+
+      bmiScoreVal.textContent = bmi;
+      bmiIdealRange.textContent = `${minIdeal} kg – ${maxIdeal} kg`;
+
+      // Determine Category, Badge Class & Pointer Pin Position
+      let category = '';
+      let badgeClass = '';
+      let badgeIcon = '';
+      let advice = '';
+      let pinPercentage = 0;
+
+      if (bmiNum < 18.5) {
+        category = 'Underweight';
+        badgeClass = 'bmi-badge bmi-under';
+        badgeIcon = '<i class="fas fa-info-circle"></i>';
+        advice = 'Below recommended range. Focus on nutrient-dense caloric surplus & strength training.';
+        pinPercentage = Math.max(5, (bmiNum / 18.5) * 18.5);
+      } else if (bmiNum >= 18.5 && bmiNum <= 24.9) {
+        category = 'Normal Weight';
+        badgeClass = 'bmi-badge bmi-normal';
+        badgeIcon = '<i class="fas fa-check-circle"></i>';
+        advice = 'Optimal healthy weight range! Maintain progressive training and balanced nutrition.';
+        pinPercentage = 18.5 + (((bmiNum - 18.5) / 6.4) * 30);
+      } else if (bmiNum >= 25.0 && bmiNum <= 29.9) {
+        category = 'Overweight';
+        badgeClass = 'bmi-badge bmi-over';
+        badgeIcon = '<i class="fas fa-exclamation-triangle"></i>';
+        advice = 'Above optimal range. Structured lean deficit and daily activity can optimize your health.';
+        pinPercentage = 48.5 + (((bmiNum - 25.0) / 4.9) * 25);
       } else {
-        bmr -= 161;
+        category = 'Obese';
+        badgeClass = 'bmi-badge bmi-obese';
+        badgeIcon = '<i class="fas fa-notes-medical"></i>';
+        advice = 'Higher risk range. Consult with MOHD ZUNAID for a structured body recomposition program.';
+        pinPercentage = Math.min(95, 73.5 + (((bmiNum - 30.0) / 10) * 21.5));
       }
 
-      // Total Daily Energy Expenditure (TDEE)
-      let tdee = bmr * activity;
-      let targetCalories = tdee;
-      let goalText = '';
+      bmiCategoryBadge.className = badgeClass;
+      bmiCategoryBadge.innerHTML = `${badgeIcon} ${category}`;
+      bmiAdviceText.textContent = advice;
+      bmiPin.style.left = `${pinPercentage}%`;
 
-      if (goal === 'fatloss') {
-        targetCalories = tdee * 0.8; // 20% deficit
-        goalText = `Calculated for Fat Loss (-20% caloric deficit, TDEE: ${Math.round(tdee)} kcal)`;
-      } else if (goal === 'muscle') {
-        targetCalories = tdee * 1.15; // 15% surplus
-        goalText = `Calculated for Muscle Gain (+15% caloric surplus, TDEE: ${Math.round(tdee)} kcal)`;
-      } else {
-        goalText = `Calculated for Maintenance (TDEE: ${Math.round(tdee)} kcal)`;
-      }
-
-      targetCalories = Math.round(targetCalories);
-
-      // Macro Distributions (30% Protein, 45% Carbs, 25% Fat)
-      // Protein: 4 kcal/g, Carbs: 4 kcal/g, Fat: 9 kcal/g
-      const proteinGrams = Math.round((targetCalories * 0.30) / 4);
-      const carbGrams = Math.round((targetCalories * 0.45) / 4);
-      const fatGrams = Math.round((targetCalories * 0.25) / 9);
-
-      // Render Results
-      targetCaloriesEl.textContent = `${targetCalories} kcal / day`;
-      tdeeDescEl.textContent = goalText;
-      proteinValEl.textContent = `${proteinGrams}g`;
-      carbValEl.textContent = `${carbGrams}g`;
-      fatValEl.textContent = `${fatGrams}g`;
-
-      calcResults.classList.add('active');
-      calcResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      bmiResults.classList.add('active');
+      bmiResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   }
 
