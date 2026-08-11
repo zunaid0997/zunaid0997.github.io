@@ -63,7 +63,92 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Moving Background Color Orbs Animation ("Moving Here and There")
+   ========================================================================== */
+.bg-animated-orbs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  -webkit-filter: blur(80px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #ff1e42 0%, rgba(255, 30, 66, 0.5) 50%, transparent 100%);
+  top: -80px;
+  left: -80px;
+  animation: moveOrb1 20s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, #dc2626 0%, rgba(220, 38, 38, 0.45) 50%, transparent 100%);
+  top: 45%;
+  right: -120px;
+  animation: moveOrb2 24s ease-in-out infinite alternate;
+}
+
+.orb-3 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, #ff4d6d 0%, rgba(255, 77, 109, 0.45) 50%, transparent 100%);
+  bottom: -80px;
+  left: 25%;
+  animation: moveOrb3 22s ease-in-out infinite alternate;
+}
+
+.orb-4 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, #990011 0%, rgba(153, 0, 17, 0.5) 50%, transparent 100%);
+  top: 20%;
+  left: 40%;
+  animation: moveOrb4 26s ease-in-out infinite alternate;
+}
+
+@keyframes moveOrb1 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60vw, 45vh) scale(1.18); }
+  66% { transform: translate(20vw, 70vh) scale(0.88); }
+  100% { transform: translate(75vw, 15vh) scale(1.08); }
+}
+
+@keyframes moveOrb2 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-55vw, 35vh) scale(0.92); }
+  66% { transform: translate(-25vw, -40vh) scale(1.22); }
+  100% { transform: translate(-70vw, 25vh) scale(1.02); }
+}
+
+@keyframes moveOrb3 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(45vw, -55vh) scale(1.12); }
+  66% { transform: translate(60vw, -15vh) scale(0.85); }
+  100% { transform: translate(-15vw, -40vh) scale(1.05); }
+}
+
+@keyframes moveOrb4 {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-30vw, 45vh) scale(1.15); }
+  66% { transform: translate(40vw, -25vh) scale(0.9); }
+  100% { transform: translate(25vw, 35vh) scale(1.1); }
 }
 
 a {
