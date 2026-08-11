@@ -277,4 +277,173 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
       reelBigPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
     });
   }
+
+  /* ==========================================================================
+     Website Visit View Counter Logic
+     ========================================================================== */
+  const NAV_VIEW_VAL = document.getElementById('navViewCountVal');
+  const HERO_VIEW_VAL = document.getElementById('heroViewCountVal');
+  const DRAWER_VIEW_VAL = document.getElementById('drawerViewCountVal');
+  const FOOTER_VIEW_VAL = document.getElementById('footerViewCountVal');
+  const MODAL_TOTAL_VIEWS_VAL = document.getElementById('modalTotalViewsVal');
+  const MODAL_USER_VISITS_VAL = document.getElementById('modalUserVisitsVal');
+  const MODAL_LAST_VISIT_TIME = document.getElementById('modalLastVisitTime');
+
+  const NAV_VIEW_BTN = document.getElementById('navViewCountBtn');
+  const HERO_VIEW_BTN = document.getElementById('heroViewStatBtn');
+  const DRAWER_VIEW_BTN = document.getElementById('drawerViewStatBtn');
+  const FOOTER_VIEW_BTN = document.getElementById('footerViewCountBtn');
+  
+  const VIEWS_MODAL_OVERLAY = document.getElementById('viewsModalOverlay');
+  const CLOSE_VIEWS_MODAL_ICON = document.getElementById('closeViewsModalIcon');
+  const CLOSE_VIEWS_MODAL_BTN = document.getElementById('closeViewsModalBtn');
+  const SIM_VISIT_BTN = document.getElementById('simVisitBtn');
+
+  // LocalStorage keys
+  const STORAGE_KEY_TOTAL_VIEWS = 'mohd_zunaid_site_views';
+  const STORAGE_KEY_USER_VISITS = 'mohd_zunaid_user_visits';
+
+  // Base starting view count (starts from 0)
+  const DEFAULT_BASE_VIEWS = 0;
+
+  function getStoredViews() {
+    const stored = localStorage.getItem(STORAGE_KEY_TOTAL_VIEWS);
+    // Reset if missing or if it had the old 1200+ mockup base
+    if (!stored || parseInt(stored, 10) >= 1248) {
+      localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, '0');
+      return 0;
+    }
+    return parseInt(stored, 10) || 0;
+  }
+
+  function getStoredUserVisits() {
+    const stored = localStorage.getItem(STORAGE_KEY_USER_VISITS);
+    return stored ? parseInt(stored, 10) : 0;
+  }
+
+  function formatNumber(num) {
+    return num.toLocaleString();
+  }
+
+  function formatDate(dateObj) {
+    return dateObj.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+
+  // Increment total website views and user visits on every site visit/reload
+  let currentTotalViews = getStoredViews() + 1;
+  let currentUserVisits = getStoredUserVisits() + 1;
+  const currentLastVisitTime = formatDate(new Date());
+
+  localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, currentTotalViews.toString());
+  localStorage.setItem(STORAGE_KEY_USER_VISITS, currentUserVisits.toString());
+
+  // Animated Counter Function
+  function animateCounter(targetNum) {
+    const duration = 1200; // ms
+    const startTime = performance.now();
+    const startNum = targetNum > 35 ? targetNum - 35 : 0;
+
+    function updateFrame(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic formula
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const currentVal = Math.floor(startNum + (targetNum - startNum) * easeProgress);
+
+      const formattedVal = formatNumber(currentVal);
+      if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = formattedVal;
+      if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${formattedVal}`;
+      if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = formattedVal;
+      if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = formattedVal;
+      if (MODAL_TOTAL_VIEWS_VAL) MODAL_TOTAL_VIEWS_VAL.textContent = formattedVal;
+
+      if (progress < 1) {
+        requestAnimationFrame(updateFrame);
+      }
+    }
+
+    requestAnimationFrame(updateFrame);
+  }
+
+  function updateAllViewDisplays() {
+    const formattedViews = formatNumber(currentTotalViews);
+    const formattedUserVisits = formatNumber(currentUserVisits);
+
+    if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = formattedViews;
+    if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${formattedViews}`;
+    if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = formattedViews;
+    if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = formattedViews;
+    if (MODAL_TOTAL_VIEWS_VAL) MODAL_TOTAL_VIEWS_VAL.textContent = formattedViews;
+    if (MODAL_USER_VISITS_VAL) MODAL_USER_VISITS_VAL.textContent = formattedUserVisits;
+    if (MODAL_LAST_VISIT_TIME) MODAL_LAST_VISIT_TIME.textContent = currentLastVisitTime;
+  }
+
+  // Run initial animated counter
+  animateCounter(currentTotalViews);
+  updateAllViewDisplays();
+
+  // Modal Open / Close Handlers
+  function openViewsModal() {
+    if (VIEWS_MODAL_OVERLAY) {
+      updateAllViewDisplays();
+      VIEWS_MODAL_OVERLAY.classList.add('active');
+    }
+  }
+
+  function closeViewsModal() {
+    if (VIEWS_MODAL_OVERLAY) {
+      VIEWS_MODAL_OVERLAY.classList.remove('active');
+    }
+  }
+
+  if (NAV_VIEW_BTN) NAV_VIEW_BTN.addEventListener('click', openViewsModal);
+  if (HERO_VIEW_BTN) HERO_VIEW_BTN.addEventListener('click', openViewsModal);
+  if (DRAWER_VIEW_BTN) DRAWER_VIEW_BTN.addEventListener('click', openViewsModal);
+  if (FOOTER_VIEW_BTN) FOOTER_VIEW_BTN.addEventListener('click', openViewsModal);
+
+  if (CLOSE_VIEWS_MODAL_ICON) CLOSE_VIEWS_MODAL_ICON.addEventListener('click', closeViewsModal);
+  if (CLOSE_VIEWS_MODAL_BTN) CLOSE_VIEWS_MODAL_BTN.addEventListener('click', closeViewsModal);
+
+  if (VIEWS_MODAL_OVERLAY) {
+    VIEWS_MODAL_OVERLAY.addEventListener('click', (e) => {
+      if (e.target === VIEWS_MODAL_OVERLAY) closeViewsModal();
+    });
+  }
+
+  // Simulate +1 Visit View Button in Modal
+  if (SIM_VISIT_BTN) {
+    SIM_VISIT_BTN.addEventListener('click', () => {
+      currentTotalViews += 1;
+      currentUserVisits += 1;
+      localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, currentTotalViews.toString());
+      localStorage.setItem(STORAGE_KEY_USER_VISITS, currentUserVisits.toString());
+
+      updateAllViewDisplays();
+
+      // Trigger pulse animation effect on views display
+      if (MODAL_TOTAL_VIEWS_VAL) {
+        MODAL_TOTAL_VIEWS_VAL.classList.remove('view-pulse-anim');
+        void MODAL_TOTAL_VIEWS_VAL.offsetWidth; // trigger reflow
+        MODAL_TOTAL_VIEWS_VAL.classList.add('view-pulse-anim');
+      }
+
+      // Visual button feedback
+      const origText = SIM_VISIT_BTN.innerHTML;
+      SIM_VISIT_BTN.innerHTML = '<i class="fas fa-check-circle"></i> +1 View Counted!';
+      SIM_VISIT_BTN.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+
+      setTimeout(() => {
+        SIM_VISIT_BTN.innerHTML = origText;
+        SIM_VISIT_BTN.style.background = '';
+      }, 1200);
+    });
+  }
 });
+
