@@ -2141,6 +2141,43 @@ select.form-control {
   color: #fff;
 }
 
+.mobile-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mobile-nav-view-btn {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 30, 66, 0.12);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-full);
+  padding: 0.42rem 0.75rem;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.mobile-nav-view-btn:hover,
+.mobile-nav-view-btn:active {
+  background: rgba(255, 30, 66, 0.25);
+  border-color: var(--accent-red);
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px rgba(255, 30, 66, 0.4);
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-view-btn {
+    display: inline-flex;
+  }
+}
+
 .hero-view-stat {
   cursor: pointer;
   transition: var(--transition);

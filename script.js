@@ -282,6 +282,7 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
      Website Visit View Counter Logic
      ========================================================================== */
   const NAV_VIEW_VAL = document.getElementById('navViewCountVal');
+  const MOBILE_NAV_VIEW_VAL = document.getElementById('mobileNavViewCountVal');
   const HERO_VIEW_VAL = document.getElementById('heroViewCountVal');
   const DRAWER_VIEW_VAL = document.getElementById('drawerViewCountVal');
   const FOOTER_VIEW_VAL = document.getElementById('footerViewCountVal');
@@ -290,6 +291,7 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
   const MODAL_LAST_VISIT_TIME = document.getElementById('modalLastVisitTime');
 
   const NAV_VIEW_BTN = document.getElementById('navViewCountBtn');
+  const MOBILE_NAV_VIEW_BTN = document.getElementById('mobileNavViewBtn');
   const HERO_VIEW_BTN = document.getElementById('heroViewStatBtn');
   const DRAWER_VIEW_BTN = document.getElementById('drawerViewStatBtn');
   const FOOTER_VIEW_BTN = document.getElementById('footerViewCountBtn');
@@ -368,6 +370,7 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
       const exactVal = formatExactNumber(currentVal);
 
       if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = compactVal;
+      if (MOBILE_NAV_VIEW_VAL) MOBILE_NAV_VIEW_VAL.textContent = compactVal;
       if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${compactVal}`;
       if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = compactVal;
       if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = compactVal;
@@ -387,6 +390,7 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
     const formattedUserVisits = formatExactNumber(currentUserVisits);
 
     if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = compactViews;
+    if (MOBILE_NAV_VIEW_VAL) MOBILE_NAV_VIEW_VAL.textContent = compactViews;
     if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${compactViews}`;
     if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = compactViews;
     if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = compactViews;
@@ -442,6 +446,7 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
   }
 
   if (NAV_VIEW_BTN) NAV_VIEW_BTN.addEventListener('click', openViewsModal);
+  if (MOBILE_NAV_VIEW_BTN) MOBILE_NAV_VIEW_BTN.addEventListener('click', openViewsModal);
   if (HERO_VIEW_BTN) HERO_VIEW_BTN.addEventListener('click', openViewsModal);
   if (DRAWER_VIEW_BTN) DRAWER_VIEW_BTN.addEventListener('click', openViewsModal);
   if (FOOTER_VIEW_BTN) FOOTER_VIEW_BTN.addEventListener('click', openViewsModal);
