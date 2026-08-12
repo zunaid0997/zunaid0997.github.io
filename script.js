@@ -297,32 +297,39 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
   const VIEWS_MODAL_OVERLAY = document.getElementById('viewsModalOverlay');
   const CLOSE_VIEWS_MODAL_ICON = document.getElementById('closeViewsModalIcon');
   const CLOSE_VIEWS_MODAL_BTN = document.getElementById('closeViewsModalBtn');
-  const SIM_VISIT_BTN = document.getElementById('simVisitBtn');
-
   // LocalStorage keys
   const STORAGE_KEY_TOTAL_VIEWS = 'mohd_zunaid_site_views';
   const STORAGE_KEY_USER_VISITS = 'mohd_zunaid_user_visits';
-
-  // Base starting view count (starts from 0)
-  const DEFAULT_BASE_VIEWS = 0;
+  const COUNT_API_KEY = 'zunaid0997_portfolio_views';
+  const COUNT_API_URL = `https://countapi.mileshilliard.com/api/v1/hit/${COUNT_API_KEY}`;
+  const DEFAULT_BASE_VIEWS = 5250;
 
   function getStoredViews() {
     const stored = localStorage.getItem(STORAGE_KEY_TOTAL_VIEWS);
-    // Reset if missing or if it had the old 1200+ mockup base
-    if (!stored || parseInt(stored, 10) >= 1248) {
-      localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, '0');
-      return 0;
-    }
-    return parseInt(stored, 10) || 0;
+    if (!stored) return DEFAULT_BASE_VIEWS;
+    const parsed = parseInt(stored, 10);
+    return isNaN(parsed) || parsed < DEFAULT_BASE_VIEWS ? DEFAULT_BASE_VIEWS : parsed;
   }
 
   function getStoredUserVisits() {
     const stored = localStorage.getItem(STORAGE_KEY_USER_VISITS);
-    return stored ? parseInt(stored, 10) : 0;
+    return stored ? (parseInt(stored, 10) || 0) : 0;
   }
 
-  function formatNumber(num) {
+  function formatExactNumber(num) {
     return num.toLocaleString();
+  }
+
+  function formatCompactNumber(num) {
+    if (num >= 1000000) {
+      const val = (Math.floor(num / 100000) / 10).toFixed(1).replace(/\.0$/, '');
+      return val + 'M';
+    }
+    if (num >= 1000) {
+      const val = (Math.floor(num / 100) / 10).toFixed(1).replace(/\.0$/, '');
+      return val + 'K';
+    }
+    return num.toString();
   }
 
   function formatDate(dateObj) {
@@ -336,13 +343,13 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
     });
   }
 
-  // Increment total website views and user visits on every site visit/reload
-  let currentTotalViews = getStoredViews() + 1;
+  // Increment local user visits on this device/browser
   let currentUserVisits = getStoredUserVisits() + 1;
   const currentLastVisitTime = formatDate(new Date());
-
-  localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, currentTotalViews.toString());
   localStorage.setItem(STORAGE_KEY_USER_VISITS, currentUserVisits.toString());
+
+  // Cached initial view count for instant rendering
+  let currentTotalViews = getStoredViews();
 
   // Animated Counter Function
   function animateCounter(targetNum) {
@@ -357,12 +364,14 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
       const easeProgress = 1 - Math.pow(1 - progress, 3);
       const currentVal = Math.floor(startNum + (targetNum - startNum) * easeProgress);
 
-      const formattedVal = formatNumber(currentVal);
-      if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = formattedVal;
-      if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${formattedVal}`;
-      if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = formattedVal;
-      if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = formattedVal;
-      if (MODAL_TOTAL_VIEWS_VAL) MODAL_TOTAL_VIEWS_VAL.textContent = formattedVal;
+      const compactVal = formatCompactNumber(currentVal);
+      const exactVal = formatExactNumber(currentVal);
+
+      if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = compactVal;
+      if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${compactVal}`;
+      if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = compactVal;
+      if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = compactVal;
+      if (MODAL_TOTAL_VIEWS_VAL) MODAL_TOTAL_VIEWS_VAL.textContent = exactVal;
 
       if (progress < 1) {
         requestAnimationFrame(updateFrame);
@@ -373,21 +382,50 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
   }
 
   function updateAllViewDisplays() {
-    const formattedViews = formatNumber(currentTotalViews);
-    const formattedUserVisits = formatNumber(currentUserVisits);
+    const compactViews = formatCompactNumber(currentTotalViews);
+    const exactViews = formatExactNumber(currentTotalViews);
+    const formattedUserVisits = formatExactNumber(currentUserVisits);
 
-    if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = formattedViews;
-    if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${formattedViews}`;
-    if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = formattedViews;
-    if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = formattedViews;
-    if (MODAL_TOTAL_VIEWS_VAL) MODAL_TOTAL_VIEWS_VAL.textContent = formattedViews;
+    if (NAV_VIEW_VAL) NAV_VIEW_VAL.textContent = compactViews;
+    if (HERO_VIEW_VAL) HERO_VIEW_VAL.innerHTML = `<i class="fas fa-eye" style="color: var(--accent-red); margin-right: 4px;"></i> ${compactViews}`;
+    if (DRAWER_VIEW_VAL) DRAWER_VIEW_VAL.textContent = compactViews;
+    if (FOOTER_VIEW_VAL) FOOTER_VIEW_VAL.textContent = compactViews;
+    if (MODAL_TOTAL_VIEWS_VAL) MODAL_TOTAL_VIEWS_VAL.textContent = exactViews;
     if (MODAL_USER_VISITS_VAL) MODAL_USER_VISITS_VAL.textContent = formattedUserVisits;
     if (MODAL_LAST_VISIT_TIME) MODAL_LAST_VISIT_TIME.textContent = currentLastVisitTime;
   }
 
-  // Run initial animated counter
+  // Display initial cached view count immediately
   animateCounter(currentTotalViews);
   updateAllViewDisplays();
+
+  // Async function to increment and sync real global views across all visitors
+  async function syncGlobalViewCount() {
+    try {
+      const response = await fetch(COUNT_API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        if (data && typeof data.value === 'number') {
+          currentTotalViews = Math.max(data.value, DEFAULT_BASE_VIEWS, currentTotalViews);
+          localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, currentTotalViews.toString());
+          animateCounter(currentTotalViews);
+          updateAllViewDisplays();
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('CountAPI offline or blocked; falling back to local storage cache:', err);
+    }
+
+    // Fallback if network or API unavailable
+    currentTotalViews = Math.max((currentTotalViews || DEFAULT_BASE_VIEWS) + 1, DEFAULT_BASE_VIEWS);
+    localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, currentTotalViews.toString());
+    animateCounter(currentTotalViews);
+    updateAllViewDisplays();
+  }
+
+  // Trigger global view sync on site load
+  syncGlobalViewCount();
 
   // Modal Open / Close Handlers
   function openViewsModal() {
@@ -414,35 +452,6 @@ Sent from MOHD ZUNAID FIT Website Mailbox`
   if (VIEWS_MODAL_OVERLAY) {
     VIEWS_MODAL_OVERLAY.addEventListener('click', (e) => {
       if (e.target === VIEWS_MODAL_OVERLAY) closeViewsModal();
-    });
-  }
-
-  // Simulate +1 Visit View Button in Modal
-  if (SIM_VISIT_BTN) {
-    SIM_VISIT_BTN.addEventListener('click', () => {
-      currentTotalViews += 1;
-      currentUserVisits += 1;
-      localStorage.setItem(STORAGE_KEY_TOTAL_VIEWS, currentTotalViews.toString());
-      localStorage.setItem(STORAGE_KEY_USER_VISITS, currentUserVisits.toString());
-
-      updateAllViewDisplays();
-
-      // Trigger pulse animation effect on views display
-      if (MODAL_TOTAL_VIEWS_VAL) {
-        MODAL_TOTAL_VIEWS_VAL.classList.remove('view-pulse-anim');
-        void MODAL_TOTAL_VIEWS_VAL.offsetWidth; // trigger reflow
-        MODAL_TOTAL_VIEWS_VAL.classList.add('view-pulse-anim');
-      }
-
-      // Visual button feedback
-      const origText = SIM_VISIT_BTN.innerHTML;
-      SIM_VISIT_BTN.innerHTML = '<i class="fas fa-check-circle"></i> +1 View Counted!';
-      SIM_VISIT_BTN.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-
-      setTimeout(() => {
-        SIM_VISIT_BTN.innerHTML = origText;
-        SIM_VISIT_BTN.style.background = '';
-      }, 1200);
     });
   }
 });
